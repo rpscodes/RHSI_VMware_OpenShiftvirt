@@ -126,9 +126,66 @@
 ![payments_vmware](images/vmware_patients.png)
 
 
-* try
-+
-![patients_vmware](images/vmware_patients.png)
+## Connect the OpenShift Cluster (frontend) to the OpenShift Virtualization VM (Database and Payment Processor)
+
+Now let's connect the OpenShift Cluster to the OpenShift Virtualization VM. After that we'll be able to seamlessly switch over the traffic from VMware to OpenShift Virtualization.
+
+* Initialize Service Interconnect
+    **OpenShift Virt**
+    ```
+    export SKUPPER_PLATFORM=podman
+
+    skupper init
+
+    ```
+
+* Create connection token
+    **OpenShift Cluster**
+    ```
+    skupper token create secret_virt.token
+    ```
+
+* Display the token and copy it in a text editor
+    **OpenShift Cluster**
+    ```
+    cat secret_virt.token
+    ```
+
+* Create a new file on the VM and save the contents of the token in it 
+    **OpenShift Virt**
+    ```
+    vi secret_virt.token
+    ```
+
+* Create the link
+    **OpenShift Virt**
+    ```
+    skupper link create secret_virt.token --name virt-to-openshift
+    ```
+* Expose the database and payment processor over the network
+    **OpenShift Virt**
+    ```
+    skupper expose host portal-database --address database --port 5432 
+
+    skupper expose host portal-payments --address payment-processor --port 8080 --protocol http
+    ```
+
+* Delete the connection between VMware and OpenShift cluster
+    **VMware**
+    ```
+    skupper delete
+    ```
+
+* Now you should see the traffic is automatically switched to OpenShift Virtualization
+![payments_virt](images/openshift_virt_payment.png)
+
+## Conclusion
+
+## Troubleshooting
+
+
+
+
 
 
 
