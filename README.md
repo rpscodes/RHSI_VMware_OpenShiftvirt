@@ -123,7 +123,7 @@
 
 * Open the link of the front end route and you should see a list of patients and should be able to make a payment to one of the patients. The application also displays where you payment was processed. Currently it should show that it was processed as VMware
 ![patients_vmware](images/vmware_patients.png)
-![payments_vmware](images/vmware_patients.png)
+![payments_vmware](images/vmware_payment.png)
 
 
 ## Connect the OpenShift Cluster (frontend) to the OpenShift Virtualization VM (Database and Payment Processor)
